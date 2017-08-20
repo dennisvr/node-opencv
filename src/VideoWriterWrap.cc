@@ -44,9 +44,11 @@ NAN_METHOD(VideoWriterWrap::New) {
     std::string filename = std::string(*Nan::Utf8String(info[0]->ToString()));
 
     // Arg 1 is the fourcc code
-    const char *fourccStr = std::string(*Nan::Utf8String(info[1]->ToString())).c_str();
-    int fourcc = -1;//CV_FOURCC(fourccStr[0],fourccStr[1],fourccStr[2],fourccStr[3]);
-
+    int fourcc = -1;
+    if(!info[1]->IsNull()) {
+        const char *fourccStr = std::string(*Nan::Utf8String(info[1]->ToString())).c_str();
+        fourcc = -CV_FOURCC(fourccStr[0], fourccStr[1], fourccStr[2], fourccStr[3]);
+    }
     // Arg 2 is the output fps
     double fps = Nan::To<double>(info[2]).FromJust();
 
